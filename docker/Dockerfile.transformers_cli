@@ -1,0 +1,33 @@
+FROM nvidia/cuda:11.0-base
+
+RUN apt-get update \
+  && apt-get install -y --no-install-recommends \
+    build-essential \
+    curl \
+    git \
+    python3-pip \
+    python3-setuptools \
+    python3-dev \
+  && rm -rf /var/lib/apt/lists/*
+
+#RUN apt-get install nvidia-container-runtime
+
+RUN pip3 install numpy
+RUN pip3 install pandas
+RUN pip3 install sklearn
+RUN pip3 install torch==1.7.0+cu110 torchvision==0.8.1+cu110 torchaudio===0.7.0 -f https://download.pytorch.org/whl/torch_stable.html
+RUN pip3 install transformers
+RUN pip3 install sentence-transformers
+RUN pip3 install --upgrade jupyter
+RUN pip3 install datasets
+
+RUN apt-get update
+RUN apt-get install -y vim
+RUN apt-get install -y wget
+
+WORKDIR /
+RUN mkdir -p python
+WORKDIR python
+#EXPOSE 8888
+#CMD jupyter notebook --no-browser --ip=0.0.0.0 --allow-root
+
